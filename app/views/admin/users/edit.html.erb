@@ -1,0 +1,6 @@
+<% if current_user.admin? %>
+    <h1>admin/users/:id/edit</h1>
+    <%= render 'users/edit' %>
+<% else %>
+    <h1>No Access</h1>
+<% end %>

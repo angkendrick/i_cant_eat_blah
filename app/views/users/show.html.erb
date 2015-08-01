@@ -1,6 +1,6 @@
 <% if current_user.id == @user.id %>
     <h1>user/show</h1>
-    <%= link_to 'home', recipes_path %>
+    <%= link_to 'home', root_path %>
     <%= link_to 'edit user', edit_user_path(params[:id]) %>
     <table>
       <tr>

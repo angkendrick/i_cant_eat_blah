@@ -1,4 +1,8 @@
-class UsersController < ApplicationController
+class Admin::UsersController < ApplicationController
+
+  def index
+    @users = User.all
+  end
 
   def new
     @user = User.new
@@ -8,12 +12,7 @@ class UsersController < ApplicationController
     @user = User.new(secure_params)
 
     if @user.save
-      if current_user.admin
-        redirect_to admin_users_path, notice: "User, #{@user.first_name} created!"
-      else
-        session[:user_id] = @user.id
-        redirect_to recipes_path, notice: "Happy eating, #{@user.first_name}!"
-      end
+      redirect_to admin_users_path, notice: "User, #{@user.first_name} created!"
     else
       render :new
     end
@@ -32,19 +31,24 @@ class UsersController < ApplicationController
     @user.update(secure_params)
 
     if @user.save
-      if current_user.admin
-        redirect_to admin_users_path(params[:id]), notice: 'updated!'
-      else
-        redirect_to user_path(params[:id]), notice: 'updated!'
-      end
-
+      redirect_to admin_users_path, notice: 'updated!'
     else
       render :edit
     end
   end
 
+  def destroy
+    @user = User.find(params[:id])
 
-  protected
+    if @user.destroy
+      redirect_to admin_users_path, notice: "#{@user.username} deleted! "
+    else
+      redirect_to admin_users_path, notice: "failed to delete #{@user.username}"
+    end
+  end
+
+
+    protected
 
   def secure_params
     params.require(:user).permit(:username, :email, :first_name, :last_name, :password, :password_confirmation)

@@ -2,5 +2,6 @@
 
 <ul>
   <li><%= link_to "#{admin_ingredients_path} -- has index add edit delete", admin_ingredients_path %></li>
-  <li><%= link_to "#{user_path(current_user.id)} -- has show, edit", user_path(current_user.id) %></li>
+  <li><%= link_to "#{admin_users_path} -- has index add edit delete", admin_users_path %></li>
+  <li><%= link_to "#{user_path(current_user.id)} -- has show, edit", user_path(current_user.id) if current_user %></li>
 </ul>
