@@ -1,20 +1,26 @@
-<h1>admin/ingredient/edit</h1>
+<% if current_user.admin? %>
 
-<%= form_for [:admin, @ingredient] do |f| %>
-    <% if @ingredient.errors.any? %>
+    <h1>admin/ingredient/edit</h1>
+
+    <%= form_for [:admin, @ingredient] do |f| %>
+        <% if @ingredient.errors.any? %>
+            <div>
+              <%= pluralize(@ingredient.errors.count, 'error') %> prevented the account from being created:
+              <ul>
+                <% @ingredient.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
         <div>
-          <%= pluralize(@ingredient.errors.count, 'error') %> prevented the account from being created:
-          <ul>
-            <% @ingredient.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-            <% end %>
-          </ul>
+          <%= f.label 'name' %><br>
+          <%= f.text_field 'name' %>
         </div>
+        <div><%= f.submit 'Submit' %></div>
     <% end %>
-    <div>
-      <%= f.label 'name' %><br>
-      <%= f.text_field 'name' %>
-    </div>
-    <div><%= f.submit 'Submit' %></div>
-<% end %>
 
+<% else %>
+    <h1>No Access</h1>
+
+<% end %>

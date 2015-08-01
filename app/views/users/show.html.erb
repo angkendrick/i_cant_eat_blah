@@ -1,0 +1,22 @@
+<% if current_user.id == @user.id %>
+    <h1>user/show</h1>
+    <%= link_to 'home', recipes_path %>
+    <%= link_to 'edit user', edit_user_path(params[:id]) %>
+    <table>
+      <tr>
+        <td>Username</td><td><%= @user.username %></td>
+      </tr>
+      <tr>
+        <td>First name</td><td><%= @user.first_name %></td>
+      </tr>
+      <tr>
+        <td>Last name</td><td><%= @user.last_name %></td>
+      </tr>
+      <tr>
+        <td>Email</td><td><%= @user.email %></td>
+      </tr>
+    </table>
+
+<% else %>
+    <h1>No Access</h1>
+<% end %>

@@ -1,16 +1,23 @@
-<h1>Admin/Ingredients/Index</h1>
+<% if current_user.admin? %>
 
+    <h1>Admin/Ingredients/Index</h1>
 
-<%= link_to 'add another ingredient', new_admin_ingredient_path %>
-<table border="1">
-  <% count = 1 %>
-  <% @ingredients.each do |ingredient| %>
-    <tr>
-      <td><%= count %></td>
-      <td><%= ingredient.name %></td>
-      <td><%= link_to 'edit', edit_admin_ingredient_path(ingredient) %></td>
-      <td><%= link_to 'delete', admin_ingredient_path(ingredient), method: :delete, data: {confirm: 'Are you sure?'} %></td>
-    </tr>
-    <% count += 1 %>
-  <% end %>
-</table>
+    <%= link_to 'home', recipes_path %>
+    <%= link_to 'add another ingredient', new_admin_ingredient_path %>
+    <table border="1">
+      <% count = 1 %>
+      <% @ingredients.each do |ingredient| %>
+        <tr>
+          <td><%= count %></td>
+          <td><%= ingredient.name %></td>
+          <td><%= link_to 'edit', edit_admin_ingredient_path(ingredient) %></td>
+          <td><%= link_to 'delete', admin_ingredient_path(ingredient), method: :delete, data: {confirm: 'Are you sure?'} %></td>
+        </tr>
+        <% count += 1 %>
+      <% end %>
+    </table>
+
+<% else %>
+    <h1>No Access</h1>
+
+<% end %>
