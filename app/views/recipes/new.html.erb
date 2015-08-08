@@ -1,0 +1,25 @@
+<h1>Recipes/New</h1>
+
+<% if @recipe.errors.any? %>
+    <div>
+      <%= pluralize(@recipe.errors.count, 'error') %> prevented the recipe from being created:
+      <ul>
+        <% @recipe.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
+
+<form>
+  Recipe Name<input type="text" id="recipe_name"><br>
+  Recipe Instructions<input type="text" id="recipe_instructions">
+</form>
+
+<script>
+
+  $(function(){
+      console.log('ready!');
+  });
+
+</script>

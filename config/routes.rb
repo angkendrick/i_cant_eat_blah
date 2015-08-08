@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
-  root to: 'recipes#index'
+  root to: 'welcome#index'
+
+  resources :welcome, only: [:index]
 
   resources :sessions, only: [:new, :create, :destroy]
 

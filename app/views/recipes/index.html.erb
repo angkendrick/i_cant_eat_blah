@@ -1,8 +1,3 @@
 <h1>Recipes/Index</h1>
 
-<ul>
-  <li><%= link_to "#{admin_ingredients_path} -- has index add edit delete", admin_ingredients_path if current_user %></li>
-  <li><%= link_to "#{admin_users_path} -- has index add edit delete", admin_users_path if current_user %></li>
-  <li><%= link_to "#{admin_measurements_path} -- has index add edit delete", admin_measurements_path if current_user %></li>
-  <li><%= link_to "#{user_path(current_user.id)} -- has show, edit", user_path(current_user.id) if current_user %></li>
-</ul>
+
