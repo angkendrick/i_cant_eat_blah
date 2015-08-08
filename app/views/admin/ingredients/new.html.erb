@@ -1,24 +1,7 @@
 <% if current_user.admin? %>
 
-    <h1>Add New Ingredient</h1>
-
-    <%= form_for [:admin, @ingredient] do |f| %>
-        <% if @ingredient.errors.any? %>
-            <div>
-              <%= pluralize(@ingredient.errors.count, 'error') %> prevented the account from being created:
-              <ul>
-                <% @ingredient.errors.full_messages.each do |msg| %>
-                    <li><%= msg %></li>
-                <% end %>
-              </ul>
-            </div>
-        <% end %>
-        <div>
-          <%= f.label 'name' %><br>
-          <%= f.text_field 'name' %>
-        </div>
-        <div><%= f.submit 'Submit' %></div>
-    <% end %>
+    <h1>Admin/Ingredients/New</h1>
+    <%= render 'form' %>
 
 <% else %>
     <h1>No Access</h1>

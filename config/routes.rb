@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users
     resources :ingredients, only: [:new, :create, :edit, :update, :destroy, :index]
+    resources :measurements, only: [:new, :create, :edit, :update, :destroy, :index]
   end
   
 end

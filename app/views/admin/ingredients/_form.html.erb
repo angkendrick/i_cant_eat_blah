@@ -1,0 +1,18 @@
+<%= link_to 'Back', admin_ingredients_path %>
+<%= form_for [:admin, @ingredient] do |f| %>
+    <% if @ingredient.errors.any? %>
+        <div>
+          <%= pluralize(@ingredient.errors.count, 'error') %> prevented the ingredient from being created:
+          <ul>
+            <% @ingredient.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div>
+      <%= f.label 'name' %><br>
+      <%= f.text_field 'name' %>
+    </div>
+    <div><%= f.submit 'Submit' %></div>
+<% end %>

@@ -1,0 +1,34 @@
+<% if current_user.admin %>
+
+    <h1>Admin/Measurements/Index</h1>
+    <% if @measurement && @measurement.errors.any? %>
+        <div>
+          <%= pluralize(@measurement.errors.count, 'error') %>
+          <ul>
+            <% @measurement.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <%= link_to 'Home', root_path %>
+    <%= link_to 'Add another measurement', new_admin_measurement_path %>
+    <table border="1">
+      <% count = 1 %>
+      <% @measurements.each do |measurement| %>
+        <tr>
+          <td><%= count %></td>
+          <td><%= measurement.long_name %></td>
+          <td><%= measurement.short_name %></td>
+          <td><%= link_to 'edit', edit_admin_measurement_path(measurement) %></td>
+          <td><%= link_to 'delete', admin_measurement_path(measurement), method: :delete, data: {confirm: 'Are you sure?'} %></td>
+        </tr>
+          <% count+= 1 %>
+      <% end %>
+    </table>
+
+<% else %>
+    <h1>No Access</h1>
+
+<% end %>

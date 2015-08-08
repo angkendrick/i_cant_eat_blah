@@ -1,0 +1,24 @@
+<%= link_to 'Back', admin_measurements_path %>
+<%= form_for [:admin, @measurement] do |f| %>
+    <% if @measurement.errors.any? %>
+        <div>
+          <%= pluralize(@measurement.errors.count, 'error') %>
+          <ul>
+            <% @measurement.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div>
+      <%= f.label 'Name' %>
+      <%= f.text_field 'long_name' %>
+    </div>
+    <div>
+      <%= f.label 'Abbreviation' %>
+      <%= f.text_field 'short_name', class: 'form-control', placeholder: 'e.g. Tbsp' %>
+    </div>
+    <div>
+      <%= f.submit 'Submit' %>
+    </div>
+<% end %>
