@@ -1,3 +1,23 @@
 <h1>Recipes/Index</h1>
-
-
+<% if @recipe && @recipe.errors.any? %>
+    <div>
+      <%= pluralize(@recipe.errors.count, 'error') %>
+      <ul>
+        <% @recipe.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
+<%= link_to 'Home', root_path%>
+<%= link_to 'Add Recipe', new_recipe_path %>
+<table>
+  <tr><th>Recipe</th><th>by</th></tr>
+  <% @recipes.each do |recipe| %>
+    <tr>
+      <td><%= recipe.name %></td>
+      <td><%= get_name(recipe.user_id) %></td>
+      <td><%= link_to 'delete', recipe_path(recipe), method: :delete, data: {confirm: 'Are you sure?'} if current_user.id == recipe.user_id%></td>
+    </tr>
+  <% end %>
+</table>

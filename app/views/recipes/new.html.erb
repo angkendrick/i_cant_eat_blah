@@ -1,5 +1,6 @@
 <h1>Recipes/New</h1>
 
+<%= link_to 'Back', recipes_path %>
 <% if @recipe.errors.any? %>
     <div>
       <%= pluralize(@recipe.errors.count, 'error') %> prevented the recipe from being created:
@@ -30,8 +31,9 @@
       var count = 1;
 
       $("#addStage").on("click", function(){
-          $("#sandbox").append("<div id='stage" + stageCount + "' data-count='1'>Instructions<input type='text' name ='stage" + stageCount + "'><br>" +
-                  "<button type='button' class='dynamicIngredients'>Add more ingredients</button></div>"); //add instructions field
+          $("#sandbox").append("<br><div id='stage" + stageCount + "' data-count='1' style='border: 1px solid black; width: 400px;'>Instructions" +
+                  "<textarea name ='stage" + stageCount + "' style='height: 100px; width: 200px'></textarea><br>" +
+                  "<button type='button' class='dynamicIngredients'>Add more ingredients</button><br></div>"); //add instructions field
           stageCount++;
 
       });
@@ -69,24 +71,38 @@
 
       $("#newRecipe").submit(function(event){
           event.preventDefault();
-          var formData = $("#newRecipe").serializeArray();
+          if (validateForm()) {
+              $('input:submit').attr("disabled", true);
+              var formData = $("#newRecipe").serializeArray();
 
-
-          $.ajax({
-              type  : 'POST',
-              url   : '<%= recipes_path %>',
-              data  : formData
-          })
-          .done(function(data){
-            console.log('looking good!');
-            console.log(data);
-          })
-          .error(function(data){
-            console.log('something went wrong!');
-            console.log(data);
-          });
+              $.ajax({
+                  type  : 'POST',
+                  url   : '<%= recipes_path %>',
+                  data  : formData
+              })
+              .done(function(data){
+                console.log('looking good!');
+                console.log(data);
+                location.href = '<%= recipes_path %>'
+              })
+              .error(function(data){
+                console.log('something went wrong!');
+                console.log(data);
+              });
+          } else {
+              window.alert("All Fields required!");
+          }
 
       });
+
+      function validateForm() {
+          var isValid = true;
+          $('#newRecipe').each(function() {
+              if ( $(this).val() === '' )
+                  isValid = false;
+          });
+          return isValid;
+      }
 
 
       console.log('ready!');
