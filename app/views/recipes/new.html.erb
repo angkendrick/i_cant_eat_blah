@@ -52,14 +52,14 @@
       function addIngredients(origin){
           var id = origin.attr('id');
           var dataCount = origin.data("count");
-          $(origin).append("<select id='" + id + "_ingredients" + dataCount + "' name='" + id + "_ingredients" + dataCount + "'></select>"); //add ingredients select
-          $.each(ingredients, function(i, ingredient){
+          $(origin).append("<select id='" + id + "_ingredients" + dataCount + "' name='" + id + "_" + dataCount + "_ingredients'></select>"); //add ingredients select
+          $.each(ingredients, function(i, ingredient){ //options points looks for select id
               $("#" + id + "_ingredients" + dataCount + "").append("<option value='" + ingredient.id + "'>" + ingredient.name + "</option>");
           });
 
-          $(origin).append("<input type='number' name='" + id + "_quantity" + dataCount + "'>");
+          $(origin).append("<input type='number' name='" + id + "_" + dataCount + "_quantity'>");
 
-          $(origin).append("<select id='" + id + "_measurements" + dataCount + "' name='" + id + "_measurements" + dataCount + "'></select><br>"); //add measurements select
+          $(origin).append("<select id='" + id + "_measurements" + dataCount + "' name='" + id + "_" + dataCount + "_measurements'></select><br>"); //add measurements select
           $.each(measurements, function(i, measurement){
               $("#" + id + "_measurements" + dataCount + "").append("<option value='" + measurement.id + "'>" + measurement.short_name + "</option>");
           });

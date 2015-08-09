@@ -3,12 +3,11 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  # {"recipe_name"=>"Shrimp", "stage1"=>"catch shrimp", "stage1_ingredients1"=>"1", "stage1_quantity1"=>"1",
-  # "stage1_measurements1"=>"3", "stage1_ingredients2"=>"2", "stage1_quantity2"=>"2", "stage1_measurements2"=>"4",
-  # "stage2"=>"heat pan", "stage2_ingredients1"=>"3", "stage2_quantity1"=>"3", "stage2_measurements1"=>"2",
-  # "stage3"=>"cook shrimp", "stage3_ingredients1"=>"4", "stage3_quantity1"=>"4", "stage3_measurements1"=>"6",
-  # "stage3_ingredients2"=>"6", "stage3_quantity2"=>"6", "stage3_measurements2"=>"12", "stage3_ingredients3"=>"6",
-  # "stage3_quantity3"=>"13", "stage3_measurements3"=>"11"}
+  # {"recipe_name"=>"shrimp", "stage1"=>"catch shrimp", "stage1_1_ingredients"=>"2", "stage1_1_quantity"=>"10",
+  # "stage1_1_measurements"=>"1", "stage1_2_ingredients"=>"3", "stage1_2_quantity"=>"11", "stage1_2_measurements"=>"8",
+  # "stage2"=>"cook shrimp", "stage2_1_ingredients"=>"6", "stage2_1_quantity"=>"13", "stage2_1_measurements"=>"12",
+  # "stage2_2_ingredients"=>"7", "stage2_2_quantity"=>"14", "stage2_2_measurements"=>"11"}
+
 
 
   def create_recipe_from_json(json)
@@ -28,7 +27,21 @@ class ApplicationController < ActionController::Base
       stage.recipe_id = @recipe.id
       stage.stage = stage_count
       stage.instructions = json["stage#{stage_count}"]
-      stage.save
+      stage.save #has stage_id
+
+      dynamic_count = 1
+      10.times do
+        continue = true
+        rc = RecipeComponent.new
+        rc.recipe_id = @recipe.id
+        rc.stage_id = stage.id
+        puts json.has_key?("stage#{stage_count}_#{dynamic_count}_ingredients") ? rc.ingredient_id = json["stage#{stage_count}_#{dynamic_count}_ingredients"] : continue = false
+        puts json.has_key?("stage#{stage_count}_#{dynamic_count}_measurements") ? rc.measurement_id = json["stage#{stage_count}_#{dynamic_count}_measurements"] : continue = false
+        puts json.has_key?("stage#{stage_count}_#{dynamic_count}_quantity") ? rc.quantity = json["stage#{stage_count}_#{dynamic_count}_quantity"] : continue = false
+        rc.save if continue
+        dynamic_count += 1
+      end
+
       stage_count += 1
     end
   end
