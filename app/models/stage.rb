@@ -5,4 +5,6 @@ class Stage < ActiveRecord::Base
   has_many :ingredients, :through => :recipe_components
   has_many :measurements, :through => :recipe_components
 
+
+
 end
