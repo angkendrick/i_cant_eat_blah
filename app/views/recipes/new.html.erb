@@ -71,7 +71,7 @@
 
       $("#newRecipe").submit(function(event){
           event.preventDefault();
-          if (validateForm()) {
+//          if (validateForm()) {
               $('input:submit').attr("disabled", true);
               var formData = $("#newRecipe").serializeArray();
 
@@ -89,9 +89,9 @@
                 console.log('something went wrong!');
                 console.log(data);
               });
-          } else {
-              window.alert("All Fields required!");
-          }
+//          } else {
+//              window.alert("All Fields required!");
+//          }
 
       });
 
