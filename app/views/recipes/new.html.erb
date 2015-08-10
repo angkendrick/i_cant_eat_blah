@@ -13,7 +13,7 @@
 <% end %>
 
 <form id="newRecipe">
-  Recipe Name<input type="text" id="recipe_name" name="recipe_name"><br>
+  Recipe Name<input type="text" class="validate" id="recipe_name" name="recipe_name"><br>
   <div id="sandbox"></div>
   <div id="selectHolder"></div>
   <input type="submit" value="submit">
@@ -30,9 +30,16 @@
       var stageCount = 1;
       var count = 1;
 
+      $body = $("body");
+
+      $(document).on({
+          ajaxStart: function() { $body.addClass("loading");    },
+          ajaxStop: function() { $body.removeClass("loading"); }
+      });
+
       $("#addStage").on("click", function(){
           $("#sandbox").append("<br><div id='stage" + stageCount + "' data-count='1' style='border: 1px solid black; width: 400px;'>Instructions" +
-                  "<textarea name ='stage" + stageCount + "' style='height: 100px; width: 200px'></textarea><br>" +
+                  "<textarea class='validate' name ='stage" + stageCount + "' style='height: 100px; width: 200px'></textarea><br>" +
                   "<button type='button' class='dynamicIngredients'>Add more ingredients</button><br></div>"); //add instructions field
           stageCount++;
 
@@ -47,31 +54,31 @@
 
       });
 
-//      $("#addIngredients").on("click", function(){
-//          addIngredients();
-//      });
 
       function addIngredients(origin){
           var id = origin.attr('id');
           var dataCount = origin.data("count");
-          $(origin).append("<select id='" + id + "_ingredients" + dataCount + "' name='" + id + "_" + dataCount + "_ingredients'></select>"); //add ingredients select
+          $(origin).append("<select class='validate' id='" + id + "_ingredients" + dataCount + "' name='" + id + "_" + dataCount + "_ingredients'></select>"); //add ingredients select
           $.each(ingredients, function(i, ingredient){ //options points looks for select id
               $("#" + id + "_ingredients" + dataCount + "").append("<option value='" + ingredient.id + "'>" + ingredient.name + "</option>");
           });
+          $("#" + id + "_ingredients" + dataCount + "").prepend("<option value='' selected='selected'>select one</option>");
 
-          $(origin).append("<input type='number' name='" + id + "_" + dataCount + "_quantity'>");
+          $(origin).append("<input type='number' class='validate' name='" + id + "_" + dataCount + "_quantity'>");
 
-          $(origin).append("<select id='" + id + "_measurements" + dataCount + "' name='" + id + "_" + dataCount + "_measurements'></select><br>"); //add measurements select
+          $(origin).append("<select class='validate' id='" + id + "_measurements" + dataCount + "' name='" + id + "_" + dataCount + "_measurements'></select><br>"); //add measurements select
           $.each(measurements, function(i, measurement){
               $("#" + id + "_measurements" + dataCount + "").append("<option value='" + measurement.id + "'>" + measurement.short_name + "</option>");
           });
+          $("#" + id + "_measurements" + dataCount + "").prepend("<option value='' selected='selected'>select one</option>");
 
           count++;
       }
 
       $("#newRecipe").submit(function(event){
           event.preventDefault();
-//          if (validateForm()) {
+          if (validateForm()) {
+
               $('input:submit').attr("disabled", true);
               var formData = $("#newRecipe").serializeArray();
 
@@ -83,21 +90,22 @@
               .done(function(data){
                 console.log('looking good!');
                 console.log(data);
-                location.href = '<%= recipes_path %>'
+                window.location = '<%= recipes_path %>';
               })
               .error(function(data){
                 console.log('something went wrong!');
                 console.log(data);
               });
-//          } else {
-//              window.alert("All Fields required!");
-//          }
+
+          } else {
+              window.alert("All Fields required!");
+          }
 
       });
 
       function validateForm() {
           var isValid = true;
-          $('#newRecipe').each(function() {
+          $('.validate').each(function() {
               if ( $(this).val() === '' )
                   isValid = false;
           });
